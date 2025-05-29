@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSS Монитор</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4CAF50;
+        }
+        .header h1 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: background 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+        .no-news {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            margin: 30px 0;
+            color: #666;
+            font-size: 18px;
+        }
+        .no-news h2 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        .news-container {
+            display: grid;
+            gap: 25px;
+        }
+        .news-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            padding: 25px;
+            transition: transform 0.2s, box-shadow 0.3s;
+            border-left: 4px solid #4CAF50;
+        }
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .news-title {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #2c3e50;
+        }
+        .news-content {
+            margin-bottom: 15px;
+            color: #444;
+            line-height: 1.6;
+        }
+        .news-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .news-link:hover {
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+        }
+        .news-source {
+            font-size: 0.85em;
+            color: #777;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .empty-state-icon {
+            font-size: 48px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Новости по ключевым словам</h1>
+        <div class="button-row">
+            <a href="/" class="button">Главная</a>
+            <a href="/manage" class="button">Управление</a>
+            <a href="/check_news" class="button">Проверить сейчас</a>
+        </div>
+    </div>
+
+    {% if news_items %}
+        <div class="news-container">
+            {% for item in news_items %}
+                <div class="news-item">
+                    <div class="news-title">{{ item['title'] }}</div>
+                    <div class="news-content">{{ item['content'] | safe }}</div>
+                    <a href="{{ item['link'] }}" class="news-link" target="_blank">Читать в источнике</a>
+                    <div class="news-source">Источник: {{ item['feed_url'] }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-news">
+            <div class="empty-state-icon">📰</div>
+            <h2>Нет новостей, соответствующих ключевым словам</h2>
+            <p>Попробуйте добавить другие ключевые слова или проверить обновления</p>
+            <div style="margin-top: 20px;">
+                <a href="/manage" class="button">Добавить ключевые слова</a>
+                <a href="/check_news" class="button">Проверить новости</a>
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>

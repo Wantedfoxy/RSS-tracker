@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Управление RSS Монитором</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .form-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .form-panel {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .delete-btn {
+            color: red;
+            text-decoration: none;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Управление RSS Монитором</h1>
+        <div class="button-row">
+            <a href="/" class="button">Главная</a>
+            <a href="/manage" class="button">Управление</a>
+            <a href="/check_news" class="button">Проверить сейчас</a>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <!-- Панель добавления RSS -->
+        <div class="form-panel">
+            <h2>Добавить RSS-ленту</h2>
+            <form action="/add_feed" method="post">
+                <input type="text" name="url" placeholder="Введите адрес ленты" required>
+                <button type="submit">Добавить ленту</button>
+            </form>
+        </div>
+
+        <!-- Панель добавления ключевых слов -->
+        <div class="form-panel">
+            <h2>Добавить ключевое слово</h2>
+            <form action="/add_keyword" method="post">
+                <input type="text" name="keyword" placeholder="Введите ключевое слово" required>
+                <button type="submit">Добавить слово</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <!-- Панель текущих RSS-лент -->
+        <div class="form-panel">
+            <h2>Текущие RSS-ленты</h2>
+            {% if feeds %}
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>URL</th>
+                        <th>Действие</th>
+                    </tr>
+                    {% for feed in feeds %}
+                        <tr>
+                            <td>{{ feed['id'] }}</td>
+                            <td>{{ feed['url'] }}</td>
+                            <td><a href="/delete_feed/{{ feed['id'] }}" class="delete-btn">Удалить</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>Нет добавленных RSS-лент</p>
+            {% endif %}
+        </div>
+
+        <!-- Панель текущих ключевых слов -->
+        <div class="form-panel">
+            <h2>Текущие ключевые слова</h2>
+            {% if keywords %}
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ключевое слово</th>
+                        <th>Действие</th>
+                    </tr>
+                    {% for keyword in keywords %}
+                        <tr>
+                            <td>{{ keyword['id'] }}</td>
+                            <td>{{ keyword['keyword'] }}</td>
+                            <td><a href="/delete_keyword/{{ keyword['id'] }}" class="delete-btn">Удалить</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>Нет добавленных ключевых слов</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
