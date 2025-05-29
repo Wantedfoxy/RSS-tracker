@@ -47,3 +47,12 @@ python main.py
 | POST   | `/add_keyword`           | keyword (string)   | Добавить ключевое слово      |
 | GET    | `/delete_keyword/<int>`  | keyword_id (integer)| Удалить ключевое слово       |
 | GET    | `/check_news`            | -                  | Запустить проверку новостей  |
+
+# Главная страница:
+![image](https://github.com/user-attachments/assets/2a9b0097-5e4b-440a-b11b-62304c78fad5)
+
+# Страница управления
+![image](https://github.com/user-attachments/assets/ceee6858-e761-4522-b9f0-f36cf8daa49c)
+
+# Скриншот логов:
+![image](https://github.com/user-attachments/assets/675b017b-c132-4267-aaca-394bf763176a)
